@@ -103,6 +103,10 @@
                             <gallery data-ng-model="entry[field.name]"></gallery>
                         </div>
 
+                        <div data-ng-switch-when="collection">
+                            <select data-ng-options="c._id as c.searchField for c in relatedCollections[field.collection]" data-ng-model="entry[field.name]"></select>
+                        </div>
+                        
                         <div data-ng-switch-default>
                             <input class="uk-width-1-1 uk-form-large" type="text" data-ng-class="{'uk-form-danger':field.error}" data-ng-model="entry[field.name]">
                         </div>

@@ -51,6 +51,7 @@
                                     <option value="media">Media</option>
                                     <option value="gallery">Gallery</option>
                                     <option value="tags">Tags</option>
+                                    <option value="collection">Collection</option>
                                 </select>
 
                                 <input type="text" data-ng-if="field.type=='select'" data-ng-model="field.options" ng-list placeholder="@lang('options...')" title="@lang('Separate different options by comma')" data-uk-tooltip>
@@ -64,7 +65,10 @@
                                     <option value="markdown">Markdown</option>
                                 </select>
 
-                                <input type="text" data-ng-model="field.default" placeholder="@lang('default value...')">
+                                <select data-ng-if="field.type=='collection'" ng-options="c._id as c.name for c in collections" data-ng-model="field.collection" title="@lang('Related collection')" data-uk-tooltip>
+                                </select>
+                                
+                                <input type="text" data-ng-if="field.type!='collection'" data-ng-model="field.default" placeholder="@lang('default value...')">
 
                                 <span>
                                     <input type="checkbox" data-ng-model="field.required" />

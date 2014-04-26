@@ -178,7 +178,7 @@ class Cursor implements \Iterator{
         }
 
         $sql = implode(' ', $sql);
-
+        
         $stmt      = $this->collection->database->connection->query($sql);
         $result    = $stmt->fetchAll( \PDO::FETCH_ASSOC);
         $documents = array();

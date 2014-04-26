@@ -9,10 +9,21 @@
         $scope.entry      = entry;
         $scope.versions   = [];
 
+        $scope.relatedCollections = {};
+
         // init entry with default values
         if(!entry["_id"] && collection.fields && collection.fields.length) {
             collection.fields.forEach(function(field){
                 if(field["default"]) entry[field.name] = field["default"];
+            });
+        }
+
+        // init the related collections
+        if(collection.fields && collection.fields.length) {
+            collection.fields.forEach(function(field){
+                if(field.type === "collection") {
+                    $scope.relatedCollections[field.collection] = [];
+                }
             });
         }
 
@@ -109,7 +120,7 @@
 
                 fields = $scope.collection.fields.filter(function(field){
 
-                    return (['text','html', 'markdown','code','wysiwyg','markdown', 'gallery'].indexOf(field.type) > -1);
+                    return (['text','html', 'markdown','code','wysiwyg','markdown', 'gallery', 'collection'].indexOf(field.type) > -1);
                 });
 
             }
@@ -123,7 +134,29 @@
             return fields;
         };
 
+        function loadRelatedCollections() {
+            Object.keys($scope.relatedCollections).forEach(function(key) {
+                $http.post(App.route("/api/collections/findone"), { "filter": { _id: key } }).success(function(data){
+                    var searchFields = $.grep(data.fields, function(field) {
+                        if(field.lst) {
+                            return true;
+                        }
+                    });
+                    var searchField = searchFields[0].name;
+                    
+                    $http.post(App.route("/api/collections/entries"), {"collection": { _id: key, sortorder: null, sortfield: null } }).success(function(data) {
+                        for(var i=0; i < data.length; i++) {
+                            data[i].searchField = data[i][searchField]
+                        }
+                        $scope.relatedCollections[key] = data;
+                    });
+                });
+            });
+        }
+
         $scope.loadVersions();
+        
+        loadRelatedCollections();
     });
 
 })(jQuery);

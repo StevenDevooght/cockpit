@@ -23,6 +23,17 @@ $this->module("collections")->extend([
 
         return $app->db->getCollection("collections/{$collection}");
 
+    },
+            
+    "find" => function($name, $criteria = []) use($app) {
+            
+        $collection = $app->db->findOne("common/collections", ["name"=>$name]);
+        
+        if($collection) {
+            $collection = "collections/collection".$collection["_id"];
+            return $app->db->find($collection, $criteria);
+        }
+        
     }
 ]);
 

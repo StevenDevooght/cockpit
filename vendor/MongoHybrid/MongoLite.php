@@ -48,7 +48,7 @@ class MongoLite {
         if($skip)  $cursor->skip($skip);
 
         $docs      = $cursor->toArray();
-        $resultSet = new ResultSet($this, $docs);
+        $resultSet = new ResultSet($this, str_replace("collections/collection", "", $collection), $docs);
 
         return $resultSet;
     }
