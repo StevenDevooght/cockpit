@@ -123,6 +123,13 @@
                 </div>
             </div>
 
+            <div class="uk-margin">
+                <p>
+                    @lang('Field used to search through this collection.'):
+                </p>
+                <select class="uk-width-1-1 uk-margin-bottom" data-ng-model="collection.searchField" ng-options="f.name as f.name for f in getSearchFields()"></select>
+            </div>
+            
         </div>
 
     </form>

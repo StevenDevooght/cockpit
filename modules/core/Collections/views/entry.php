@@ -104,7 +104,7 @@
                         </div>
 
                         <div data-ng-switch-when="collection">
-                            <select data-ng-options="c._id as c.searchField for c in relatedCollections[field.collection]" data-ng-model="entry[field.name]"></select>
+                            <select data-ng-options="c._id as c.searchField for c in collectionEntries[field.collection]" data-ng-model="entry[field.name]"></select>
                         </div>
                         
                         <div data-ng-switch-default>

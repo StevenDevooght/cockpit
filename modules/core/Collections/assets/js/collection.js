@@ -69,6 +69,10 @@
             return [{'name':'created'}, {'name':'modified'}].concat($scope.collection && $scope.collection.fields ? angular.copy($scope.collection.fields):[]);
         }
 
+        $scope.getSearchFields = function() {
+            return $.grep($scope.collection.fields, function(field) { if(field.type === "text") return true });
+        }
+
         function fetchCollections() {
             
             $http.post(App.route("/api/collections/find")).success(function(data){
